@@ -30,7 +30,7 @@ sub BUILD {
 sub parse {
     my ($self, $input, $start) = @_;
 
-    $start =~ s/-/_/g if $start;
+    $start =~ tr/-/_/ if $start;
 
     $self->{position} = 0;
     $self->{farthest} = 0;
@@ -242,7 +242,7 @@ sub format_error {
     my $position = $self->{farthest};
     my $real_pos = $self->{position};
 
-    my $line = @{[substr($$buffer, 0, $position) =~ /(\n)/g]} + 1;
+    my $line = (substr($$buffer, 0, $position) =~ tr/\n//) + 1;
     my $column = $position - rindex($$buffer, "\n", $position);
 
     my $pretext = substr(
